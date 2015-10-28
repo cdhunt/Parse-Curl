@@ -24,44 +24,35 @@ function Parse-Curl
     )
 
     $ParamList = @{}
+    
+    $objectArray = [System.Management.Automation.PSParser]::Tokenize($InputObject,[ref]$null) | Select-Object -ExpandProperty Content
+    $index = 0
 
-    $objectArray = $InputObject | ConvertFrom-String
-
-    $index = 1
-
-    while ($index -lt ($objectArray | Get-Member -MemberType NoteProperty).Count) 
+    while ($index -lt ($objectArray.Count)-1 )
     {
+        $token = $objectArray[$index]
 
-        $term = $objectArray."P$index"
-
-        switch ($term)
+        switch ($token)
         {
             'curl' {}
             {$_ -eq '-D' -or $_ -eq '--data'} {
                 $index++
-                $ParamList["Body"] = Update-Body $ParamList["Body"] $objectArray."P$index"
+                $ParamList["Body"] = Update-Body $ParamList["Body"] $objectArray[$index]
                 if (!$ParamList["Method"]) { $ParamList["Method"] = "Post"}
             }
             {$_ -eq '-H' -or $_ -eq '--header'} {
                 $index++
-                $value = $objectArray."P$index".Trim('"')
-                if ($value[-1] -eq ':')
-                {
-                    $index++
-                    $value += $objectArray."P$index".Trim('"')
-                }
-                $ParamList["Headers"] = Update-Headers $ParamList["Headers"] $value
+                $ParamList["Headers"] = Update-Headers $ParamList["Headers"] $objectArray[$index]
             }
             {$_ -eq '-A' -or $_ -eq '--user-agent'} {
                 $index++
-                if (!$ParamList["UserAgent"]) { $ParamList["UserAgent"] = $objectArray."P$index".Trim('"')}
+                if (!$ParamList["UserAgent"]) { $ParamList["UserAgent"] = $objectArray[$index]}
             }
         }
-        $index++
-        
+        $index++        
     }
     
-    $ParamList["Uri"] = $objectArray."P$index"
+    $ParamList["Uri"] = $objectArray[-1]
 
     Write-Output $ParamList
 }
