@@ -11,6 +11,14 @@ Describe "Curl Parsing" {
         }
     }
 
+    Context "Get URI when not last" {
+        $params = "curl -X GET 'http://www.telize.com/geoip' -H 'X-Api-Key:abc123'" | Parse-Curl
+
+        It "Uri should be 'http://www.telize.com/geoip'" {
+            $params["Uri"] | Should Be 'http://www.telize.com/geoip'
+        }
+    }
+
     Context "User agent" {
         $params = 'curl --user-agent "Mozilla/4.0" http://www.telize.com/geoip' | Parse-Curl
 
