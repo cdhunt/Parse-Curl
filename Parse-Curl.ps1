@@ -28,13 +28,14 @@ function Parse-Curl
     $objectArray = [System.Management.Automation.PSParser]::Tokenize($InputObject,[ref]$null) | Select-Object -ExpandProperty Content
     $index = 0
 
-    while ($index -lt ($objectArray.Count)-1 )
-    {
-        $token = $objectArray[$index]
-
-        switch ($token)
+    while ($index -lt ($objectArray.Count) )
+    {   
+        switch ($objectArray[$index])
         {
             'curl' {}
+            {$_ -like '*://*'} {
+                $ParamList["Uri"] = $objectArray[$index]
+            }
             {$_ -eq '-D' -or $_ -eq '--data'} {
                 $index++
                 $ParamList["Body"] = Update-Body $ParamList["Body"] $objectArray[$index]
@@ -52,7 +53,7 @@ function Parse-Curl
         $index++        
     }
     
-    $ParamList["Uri"] = $objectArray[-1]
+    #$ParamList["Uri"] = $objectArray[-1]
 
     Write-Output $ParamList
 }
