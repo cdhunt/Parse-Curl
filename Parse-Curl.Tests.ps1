@@ -99,4 +99,15 @@ Describe "Curl Parsing" {
             $params["Method"] | Should Be "Post"
         }
     }
+
+    Context "Custom Request" {
+        $params = "curl -X GET 'http://www.telize.com/geoip' -H 'X-Api-Key:abc123'" | Parse-Curl
+
+        It "Uri should be 'http://www.telize.com/geoip'" {
+            $params["Uri"] | Should Be 'http://www.telize.com/geoip'
+        }
+        It "Verb should be 'GET'" {
+            $params["Method"] | Should Be 'GET'
+        }
+    }
 }

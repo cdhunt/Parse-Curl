@@ -49,6 +49,10 @@ function Parse-Curl
                 $index++
                 if (!$ParamList["UserAgent"]) { $ParamList["UserAgent"] = $objectArray[$index]}
             }
+            {$_ -eq '-X' -or $_ -eq '--request '} {
+                $index++
+                if (!$ParamList["Method"]) { $ParamList["Method"] = $objectArray[$index]}
+            }
         }
         $index++        
     }
