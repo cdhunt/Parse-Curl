@@ -17,7 +17,7 @@ test_script:
 deploy_script:
 - ps: >-
     $PublishParams = @{
-        Path = Join-Path $ENV:APPVEYOR_BUILD_FOLDER $ENV:ModuleName
+        Path = $ENV:APPVEYOR_BUILD_FOLDER
         NuGetApiKey = $ENV:ApiKey
     }
 
