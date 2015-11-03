@@ -10,6 +10,7 @@ environment:
 install:
 - ps: >-
     cinst pester -y
+    
     Get-PackageProvider -Name NuGet -ForceBootstrap
 build: off
 skip_commits:
