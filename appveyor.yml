@@ -8,7 +8,9 @@ environment:
   ApiKey:
     secure: y/mde3ZPuhXbecazSePa37KA2pNPUlZ6l+e+9uTMDebiQvEjkC1JqPXQ7Zrm541E
 install:
-- ps: Get-PackageProvider -Name NuGet -ForceBootstrap
+- ps: >-
+    cinst pester -y
+    Get-PackageProvider -Name NuGet -ForceBootstrap
 build: off
 skip_commits:
   message: /updated readme.*/
