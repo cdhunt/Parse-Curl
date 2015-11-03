@@ -1,6 +1,8 @@
 # Parse-Curl
 Parse a Curl command to get a paramerter hashtable for Invoke-RestMethod
 
+[![Build status](https://ci.appveyor.com/api/projects/status/231l3j4r8mcxcyeo?svg=true)](https://ci.appveyor.com/project/cdhunt/parse-curl)
+
 ## Example
 
 ```powershell
