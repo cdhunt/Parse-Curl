@@ -8,10 +8,10 @@
 .EXAMPLE
    Another example of how to use this cmdlet
 #>
-function Parse-Curl
+function ConvertFrom-CurlString
 {
     [CmdletBinding()]
-    [Alias()]
+    [Alias('Parse-Curl')]
     [OutputType([Hashtable])]
     Param
     (
