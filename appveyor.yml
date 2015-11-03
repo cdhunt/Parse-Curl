@@ -1,0 +1,40 @@
+version: 1.0.{build}
+os: Unstable
+environment:
+  ModuleName: Parse_Curl
+  LicenseUri: https://github.com/cdhunt/Parse-Curl/blob/master/LICENSE
+  ProjectUri: https://github.com/cdhunt/parse-curl
+  Tags: curl
+  ApiKey:
+    secure: y/mde3ZPuhXbecazSePa37KA2pNPUlZ6l+e+9uTMDebiQvEjkC1JqPXQ7Zrm541E
+install:
+- ps: cinst pester -y
+build: off
+skip_commits:
+  message: /updated readme.*/
+test_script:
+- ps: Invoke-Pester .\Parse-Curl.Tests.ps1 -OutputFormat NUnitXml -OutputFile "$ProjectRoot\TestResults.xml"
+deploy_script:
+- ps: >-
+    $PublishParams = @{
+        Path = Join-Path $ENV:APPVEYOR_BUILD_FOLDER $ENV:ModuleName
+        NuGetApiKey = $ENV:ApiKey
+    }
+
+    if($ENV:ReleaseNotes) { $PublishParams.ReleaseNotes = $ENV:ReleaseNotes }
+
+    if($ENV:LicenseUri) { $PublishParams.LicenseUri = $ENV:LicenseUri }
+
+    if($ENV:ProjectUri) { $PublishParams.ProjectUri = $ENV:ProjectUri }
+
+    if($ENV:Tags)
+
+    {
+        # split it up, remove whitespace
+        $PublishParams.Tags = $ENV:Tags -split ',' | where { $_ } | foreach {$_.trim()}
+    }
+
+
+    #Publish!
+
+    Publish-Module @PublishParams
