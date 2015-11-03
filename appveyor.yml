@@ -8,12 +8,12 @@ environment:
   ApiKey:
     secure: y/mde3ZPuhXbecazSePa37KA2pNPUlZ6l+e+9uTMDebiQvEjkC1JqPXQ7Zrm541E
 install:
-- ps: cinst pester -y
+- ps: Get-PackageProvider -Name NuGet -ForceBootstrap
 build: off
 skip_commits:
   message: /updated readme.*/
 test_script:
-- ps: Invoke-Pester .\Parse-Curl.Tests.ps1 -OutputFormat NUnitXml -OutputFile "$ProjectRoot\TestResults.xml"
+- ps: Invoke-Pester .\Parse-Curl.Tests.ps1 -OutputFormat NUnitXml -OutputFile "$ProjectRoot\TestResults.xml" -EnableExit
 deploy_script:
 - ps: >-
     $PublishParams = @{
