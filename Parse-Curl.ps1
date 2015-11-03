@@ -67,7 +67,7 @@ function Update-Body ($body, [string]$data)
         $body = @()
     }
 
-    $body = @($body) + [System.Web.HttpUtility]::UrlEncode($data)
+    $body = @($body) + $data
 
     return $body
 }
