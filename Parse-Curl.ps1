@@ -53,6 +53,10 @@ function Parse-Curl
                 $index++
                 if (!$ParamList["Method"]) { $ParamList["Method"] = $tokens[$index]}
             }
+            { $_ -eq '--max-redirs' } {
+                $index++
+                if (!$ParamList["MaximumRedirection"]) { $ParamList["MaximumRedirection"] = $tokens[$index] }
+            }
         }
         $index++        
     }   

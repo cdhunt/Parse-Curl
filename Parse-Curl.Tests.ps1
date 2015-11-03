@@ -110,4 +110,12 @@ Describe "Curl Parsing" {
             $params["Method"] | Should Be 'GET'
         }
     }
+
+    Context "Max Redirection" {
+        $params = 'curl --max-redirs 2 http://www.telize.com/ip' | Parse-Curl
+
+        It "Should allow two redirections" {
+            $params['MaximumRedirection'] | Should be 2
+        }
+    }
 }
