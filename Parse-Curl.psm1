@@ -43,7 +43,7 @@ function ConvertFrom-CurlString
             }
             {$_ -eq '-H' -or $_ -eq '--header'} {
                 $index++
-                $ParamList["Headers"] = Update-Headers $ParamList["Headers"] $tokens[$index]
+                $ParamList["Headers"] = Update-Header $ParamList["Headers"] $tokens[$index]
             }
             {$_ -eq '-A' -or $_ -eq '--user-agent'} {
                 $index++
@@ -76,7 +76,7 @@ function Update-Body ($body, [string]$data)
     return $body
 }
 
-function Update-Headers ($headers, [string]$data)
+function Update-Header ($headers, [string]$data)
 {
     if (!$headers)
     {
