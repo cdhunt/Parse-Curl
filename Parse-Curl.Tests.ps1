@@ -119,3 +119,12 @@ Describe "Curl Parsing" {
         }
     }
 }
+
+Describe 'Invoke-RestMethod Proxy Function' {
+    Context "CurlString Parameter" {     
+        
+        It "Should not thow and error" {
+            {Invoke-RestMethod -CurlString 'curl "http://www.google.com"'} | Should Not Throw
+        }        
+    }
+}
